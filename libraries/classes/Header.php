@@ -178,6 +178,9 @@ class Header
         $this->_scripts->addFile('vendor/jquery/jquery.debounce-1.0.5.js');
         $this->_scripts->addFile('menu-resizer.js');
 
+        $this->_scripts->addFile('vendor/tinymce/tinymce.min.js');
+        $this->_scripts->addFile('vendor/tinymce/jquery.tinymce.min.js');
+
         // Cross-framing protection
         if ($GLOBALS['cfg']['AllowThirdPartyFraming'] === false) {
             $this->_scripts->addFile('cross_framing_protection.js');
@@ -551,7 +554,10 @@ class Header
             . "script-src 'self' 'unsafe-inline' 'unsafe-eval' "
             . $captcha_url
             . $GLOBALS['cfg']['CSPAllow'] . ';'
-            . "style-src 'self' 'unsafe-inline' "
+            . "style-src https://* 'self' 'unsafe-inline' "
+            . $captcha_url
+            . $GLOBALS['cfg']['CSPAllow'] . ';'
+            . "font-src https://* 'self' data: 'unsafe-inline' "
             . $captcha_url
             . $GLOBALS['cfg']['CSPAllow']
             . ";"
@@ -694,6 +700,7 @@ class Header
                 . 'nocache=' . $theme_id . $GLOBALS['text_dir']
                 . (isset($GLOBALS['server']) ? '&amp;server=' . $GLOBALS['server'] : '')
                 . '" />';
+
             // load Print view's CSS last, so that it overrides all other CSS while
             // 'printing'
             $retval .= '<link rel="stylesheet" type="text/css" href="'

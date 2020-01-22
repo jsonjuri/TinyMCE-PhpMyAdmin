@@ -146,7 +146,7 @@ function checkForCheckbox (multi_edit) {
     return true;
 }
 
-function verificationsAfterFieldChange (urlField, multi_edit, theType) {
+function verificationsAfterFieldChange (urlField, multi_edit, theType) {    
     var evt = window.event || arguments.callee.caller.arguments[0];
     var target = evt.target || evt.srcElement;
     var $this_input = $(':input[name^=\'fields[multi_edit][' + multi_edit + '][' +
@@ -370,6 +370,66 @@ AJAX.registerOnload('tbl_change.js', function () {
          * after initiation of functions
          */
         extendingValidatorMessages();
+
+        setTimeout(function() {
+            $('textarea').each(function(key, value) {
+                var that = $(this),
+                    container = that.parents('td'),
+                    type = container.data('type'),
+                    id = that.attr('id');
+
+                if (type === 'text') {
+                    container.css('padding', '10px');
+                    tinyMCE.execCommand('mceRemoveEditor', false, id);
+                    that.tinymce({
+                        content_css: 'https://pro.fontawesome.com/releases/v5.12.0/css/all.css',
+                        height: 500,
+                        width: 960,
+                        menubar: false,
+                        theme: 'modern',
+                        plugins: 'fontawesome preview searchreplace paste autolink visualblocks visualchars fullscreen image link media template codesample code table charmap hr pagebreak nonbreaking anchor insertdatetime advlist lists textcolor wordcount imagetools contextmenu colorpicker textpattern',
+                        toolbar1: 'undo redo | insert | styleselect | forecolor | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist | fontawesome anchor link image | codesample code | searchreplace preview fullscreen',
+                        textcolor_map: [
+                            'D92B9E', 'Primary',
+                            '4F3587', 'Secondary',
+                            '23036A', 'Dark',
+                            '82B776', 'Success',
+                            'E04242', 'Error',
+                            'FD6C4F', 'Credits',
+                            '6441B9', 'Diamonds',
+                            '444444', 'Tint 1',
+                            '666666', 'Tint 2',
+                            '999999', 'Tint 3',
+                            'C8C7C7', 'Tint 4',
+                            'E7E7E7', 'Tint 5',
+                        ],
+                        noneditable_noneditable_class: 'fa',
+                        extended_valid_elements: 'span[*]',
+                        visualblocks_default_state: true,
+                        //extended_valid_elements: "ul,li,ol,strong,p,u,em,b,br,i,strike",
+                        //paste_retain_style_properties: "",
+                        //paste_word_valid_elements: "b,strong,i,em,h1,h2,h3,h4,h5,h6,table,tr,td",
+                        //paste_use_dialog: true,
+                       // cleanup_on_startup: true,
+                        paste_create_paragraphs: true,
+                        paste_create_linebreaks: true,
+                        powerpaste_word_import: 'prompt',
+                        //paste_retain_style_properties: "all",
+                        //paste_auto_cleanup_on_paste: true,
+                        setup: function(editor) {
+                            editor.on('init', function(e) {
+                                console.log('TinyMCE Initialized on #'+id, e);
+
+                                $('[aria-label="Fullscreen"]').on('click', function() {
+                                    var btn = $(this);
+                                    $('#pma_navigation_collapser').trigger('click');
+                                });
+                            });
+                        }
+                    });
+                }
+            });
+        }, 100);
     }
 
     $.datepicker.initialized = false;
@@ -657,6 +717,7 @@ function addNewContinueInsertionFiels (event) {
         // recompute tabindex for text fields and other controls at footer;
         // IMO it's not really important to handle the tabindex for
         // function and Null
+
         var tabindex = 0;
         $('.textfield, .char, textarea')
             .each(function () {
