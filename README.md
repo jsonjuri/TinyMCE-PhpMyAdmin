@@ -5,3 +5,6 @@ TinyMCE for PhpMyAdmin 4.9
 
 # Instructions
 Replace the files of this repository with the files in your PhpMyAdmin folder.
+
+# Todo
+Add a button to switch to raw content so you can initialize and reinitialize the editor.
