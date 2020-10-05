@@ -399,10 +399,10 @@ AJAX.registerOnload('table/change.js', function () {
             $('textarea').each(function(key, value) {
                 var that = $(this),
                     container = that.parents('td'),
-                    type = that.data('type'),
+                    type = container.data('type'),
                     id = that.attr('id');
 
-                if (type === 'CHAR') {
+                if (type === 'tinytext' || type === 'text' || type === 'mediumtext' || type === 'longtext') {
                     container.css('padding', '10px');
                     tinyMCE.execCommand('mceRemoveEditor', false, id);
                     that.tinymce({
