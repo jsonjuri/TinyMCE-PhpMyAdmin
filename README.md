@@ -1,5 +1,5 @@
 # TinyMCE-PhpMyAdmin
-TinyMCE for PhpMyAdmin 5
+TinyMCE for PhpMyAdmin 4
 
 ![TinyMCE for PHpMyAdmin](screenshot.PNG?raw=true "Title")
 
